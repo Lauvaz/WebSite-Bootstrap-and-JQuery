@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WebSite GitHub</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        //jQuery methords
+        $("button").click(function(){
+            var count = 0;
+            $.ajax({type: 'GET' , url: 'https://api.github.com/users/'+$("#userName").val()+'/repos', success: function(json){
+                $.each(jason, function(index, element){
+                    $('#body').append('<tr><td>'+element.name+'</td><td>'+element.description+'</td><td>'+element.stargazers_count+'</td></tr>');
+                    count++;
+                });
+                if(count>0){
+                    $("#text").text("Repositories " +$("#userName").val());
+                    $(".table").show(1000);}
+                else{
+                    $("#text").text("Not Found");
+                    $(".table").hide();}
+            },
+            error :function(xhr, status) {
+                $("#text").text("Error");
+                $(".table").hide();
+            });
+        });
+    });
+</script>
+</head>
+<body>
+
+<div class="container-fluid">
+   <h1>WebSite GitHub</h1>
+    <p> Implementation of a WebSite with Bootstrap and JQuery</p>
+    <label>You have to enter the username of GitHub</label>
+    <div class="row">
+        <div class="col-sm-6"><input type="text" class="form-control" id="userName"></div>
+        <div class="col-sm-6"><button type="button" class="btn btn-info">Show</button></div>
+    </div>
+    <h2 id="text"></h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Number of followers</th>
+        </tr>
+        </thead>
+        <tbody id="body">
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
