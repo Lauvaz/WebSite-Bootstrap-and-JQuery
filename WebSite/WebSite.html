@@ -10,13 +10,14 @@
     <script>
     $(document).ready(function(){
         //jQuery methords
+        $(".table").hide();
         $("button").click(function(){
-            var count = 0;
-            $.ajax({type: 'GET' , url: 'https://api.github.com/users/'+$("#userName").val()+'/repos', success: function(json){
+            $.ajax({type: 'GET' , url: 'https://api.github.com/users/'+$("#userName").val()+'/repos', data: { get_param: 'value' }, dataType: 'json', success: function(json){
+                var count = 0;
                 $.each(jason, function(index, element){
                     $('#body').append('<tr><td>'+element.name+'</td><td>'+element.description+'</td><td>'+element.stargazers_count+'</td></tr>');
                     count++;
-                });
+                    });
                 if(count>0){
                     $("#text").text("Repositories " +$("#userName").val());
                     $(".table").show(1000);}
@@ -26,7 +27,7 @@
             },
             error :function(xhr, status) {
                 $("#text").text("Error");
-                $(".table").hide();
+                $(".table").hide();}
             });
         });
     });
