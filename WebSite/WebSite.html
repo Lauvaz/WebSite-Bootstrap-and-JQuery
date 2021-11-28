@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WebSite GitHub</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -9,24 +9,23 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
     $(document).ready(function(){
-        //jQuery methords
         $(".table").hide();
         $("button").click(function(){
             $.ajax({type: 'GET' , url: 'https://api.github.com/users/'+$("#userName").val()+'/repos', data: { get_param: 'value' }, dataType: 'json', success: function(json){
-                var count = 0;
+                var count=0;
                 $.each(jason, function(index, element){
                     $('#body').append('<tr><td>'+element.name+'</td><td>'+element.description+'</td><td>'+element.stargazers_count+'</td></tr>');
                     count++;
                     });
                 if(count>0){
-                    $("#text").text("Repositories " +$("#userName").val());
+                    $("#text1").text("Repositories " +$("#userName").val());
                     $(".table").show(1000);}
                 else{
-                    $("#text").text("Not Found");
+                    $("#text1").text("Not Found");
                     $(".table").hide();}
             },
             error :function(xhr, status) {
-                $("#text").text("Error");
+                $("#text1").text("Error");
                 $(".table").hide();}
             });
         });
@@ -43,7 +42,7 @@
         <div class="col-sm-6"><input type="text" class="form-control" id="userName"></div>
         <div class="col-sm-6"><button type="button" class="btn btn-info">Show</button></div>
     </div>
-    <h2 id="text"></h2>
+    <h2 id="text1"></h2>
     <table class="table">
         <thead>
         <tr>
