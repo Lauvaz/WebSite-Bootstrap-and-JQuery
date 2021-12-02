@@ -1,60 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
     <title>WebSite GitHub</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <script>
+    var username;
     $(document).ready(function(){
-        $(".table").hide();
         $("button").click(function(){
-            $.ajax({type: 'GET' , url: 'https://api.github.com/users/'+$("#userName").val()+'/repos', data: { get_param: 'value' }, dataType: 'json', success: function(json){
-                var count=0;
-                $.each(jason, function(index, element){
-                    $('#body').append('<tr><td>'+element.name+'</td><td>'+element.description+'</td><td>'+element.stargazers_count+'</td></tr>');
-                    count++;
+            username = $("#usernameInput").val();
+            var html = "";
+            $("tbody").hide();
+            $.get(
+                "https://api.github.com/users/" + username + "/repos",
+                function(data, status){
+
+                    $.each(data, function(i, item){
+                    html = html + "<tr><td> " + item.name + "</td><td>" + item.description
+                        + "</td><td>" + item.stargazers_count + "</td></tr>";
                     });
-                if(count>0){
-                    $("#text1").text("Repositories " +$("#userName").val());
-                    $(".table").show(1000);}
-                else{
-                    $("#text1").text("Not Found");
-                    $(".table").hide();}
-            },
-            error :function(xhr, status) {
-                $("#text1").text("Error");
-                $(".table").hide();}
-            });
+
+                    $("tbody").html(html);
+                    $("tbody").show();
+                }
+            );
         });
+
     });
-</script>
+    </script>
 </head>
 <body>
-
 <div class="container-fluid">
-   <h1>WebSite GitHub</h1>
-    <p> Implementation of a WebSite with Bootstrap and JQuery</p>
-    <label>You have to enter the username of GitHub</label>
-    <div class="row">
-        <div class="col-sm-6"><input type="text" class="form-control" id="userName"></div>
-        <div class="col-sm-6"><button type="button" class="btn btn-info">Show</button></div>
+    <div class="container">
+        <h1>WebSite GitHub</h1>
+        <p>Implementation of a WebSite with Bootstrap and JQuery</p>
+        <label>You have to enter the username of GitHub</label>
+        <input id="usernameInput">
+        <div class="row">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6"><button type="button" class="btn btn-info">Show</button></div>
+        </div>
     </div>
-    <h2 id="text1"></h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Number of followers</th>
-        </tr>
-        </thead>
-        <tbody id="body">
-        </tbody>
-    </table>
-</div>
 
+
+    <div class="container" id="tableDiv">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Number of followers</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Table entries here -->
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
